@@ -1,3 +1,3 @@
-# KODILLA PROJECTS
+# Demo Repository
 #### *by Wojciech Lowczecki*
->The repository contains some projects developed during *Bootcamp Java Developer* at **Kodilla**.
+>The repository was created to demonstrate base Git work at **Kodilla** course.  
