@@ -17,7 +17,7 @@ public class TestingMain {
         // Calculator tests
         Calculator calc = new Calculator();
 
-        System.out.print("Testing of Calculator.add(int,int): ");
+        System.out.print("Testing of calculator.add(int,int): ");
         final int e1 = Integer.MAX_VALUE-1;
         final int e2 = 1;
         final int sum = Integer.MAX_VALUE;
@@ -27,7 +27,7 @@ public class TestingMain {
             failed();
         }
 
-        System.out.print("Testing of Calculator.substract(int,int): ");
+        System.out.print("Testing of calculator.substract(int,int): ");
         final int minuend = Integer.MIN_VALUE+1;
         final int subtrahend = 1;
         final int diff = Integer.MIN_VALUE;
