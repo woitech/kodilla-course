@@ -1,3 +1,3 @@
-# Demo Repository
-#### *Git exercise*
->The repository was created at **Kodilla** course to demonstrate base Git work.  
+# KODILLA COURSE
+#### *Exercises*
+>The repository contains activities from *Bootcamp Java Developer* at **Kodilla**.  
