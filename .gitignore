@@ -1,5 +1,6 @@
 .gradle
 out/
+brudnopis.txt
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
