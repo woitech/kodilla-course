@@ -1,5 +1,6 @@
 package com.kodilla.testing.shape;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,28 +11,41 @@ public class ShapeCollector {
     }
 
     public void addFigure(Shape shape) {
-        // do nothing
+        if (shape == null) {
+            throw new IllegalArgumentException("null Shape");
+        }
+        list.add(shape);
     }
 
     public boolean removeFigure(Shape shape) {
-        // return true temporarily
-        return true;
+        // ShapeCollector is not intended for collecting null values
+        if (shape == null) {
+            throw new IllegalArgumentException("null Shape");
+        }
+        return list.remove(shape);
     }
 
     public Shape getFigure(int n) {
-        // returning null means that the operation was unsuccessful
-        return null;
+        // negative index has no sense in this case
+        if (n < 0) {
+            throw new IllegalArgumentException("negative index");
+        }
+        if (n >= list.size()) {
+            return null;
+        }
+        return list.get(n);
     }
 
     // supplementary method
     public int getShapeQuantity(){
-        // return 100 temporarily
-        return 100;
+        return list.size();
     }
 
-    public void showFigures() {
+    // prints shapes' toString() results ended with '\n' char
+    // into given PrintStream
+    public void showFigures(PrintStream out) {
         for (Shape shape : list) {
-            System.out.println(shape);
+            out.printf(shape.toString() + '\n');
         }
     }
 }
