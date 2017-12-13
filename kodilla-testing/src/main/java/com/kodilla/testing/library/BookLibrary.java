@@ -23,6 +23,4 @@ public class BookLibrary {
     public List<Book> listBooksInHandsOf(LibraryUser libraryUser) {
         throw new UnsupportedOperationException("method not implemented yet");
     }
-
-
 }
