@@ -36,6 +36,10 @@ public class BookDirectoryTestSuite {
 
         // Then
         assertEquals(4, theListOfBooks.size());
+        assertEquals(book1, theListOfBooks.get(0));
+        assertEquals(book2, theListOfBooks.get(1));
+        assertEquals(book3, theListOfBooks.get(2));
+        assertEquals(book4, theListOfBooks.get(3));
     }
 
     @Test
@@ -83,7 +87,7 @@ public class BookDirectoryTestSuite {
     }
 
     @Test
-    public void testListBooksInHandsOfBorrowed0() {
+    public void testListBooksInHandsOfNoneBorrowed() {
         // Given
         LibraryDatabase libraryDatabaseMock = mock(LibraryDatabase.class);
         BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
@@ -100,7 +104,7 @@ public class BookDirectoryTestSuite {
     }
 
     @Test
-    public void testListBooksInHandsOfBorrowed1() {
+    public void testListBooksInHandsOfBorrowed1Book() {
         // Given
         LibraryDatabase libraryDatabaseMock = mock(LibraryDatabase.class);
         BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
@@ -114,10 +118,11 @@ public class BookDirectoryTestSuite {
 
         // Then
         assertEquals(1, theListOfBooks1.size());
+        assertEquals(resultListOf1Books.get(0), theListOfBooks1.get(0));
     }
 
     @Test
-    public void testListBooksInHandsOfBorrowed5() {
+    public void testListBooksInHandsOfBorrowed5Books() {
         // Given
         LibraryDatabase libraryDatabaseMock = mock(LibraryDatabase.class);
         BookLibrary bookLibrary = new BookLibrary(libraryDatabaseMock);
@@ -131,6 +136,12 @@ public class BookDirectoryTestSuite {
 
         // Then
         assertEquals(5, theListOfBooks5.size());
+        assertEquals(resultListOf5Books.get(0), theListOfBooks5.get(0));
+        assertEquals(resultListOf5Books.get(1), theListOfBooks5.get(1));
+        assertEquals(resultListOf5Books.get(2), theListOfBooks5.get(2));
+        assertEquals(resultListOf5Books.get(3), theListOfBooks5.get(3));
+        assertEquals(resultListOf5Books.get(4), theListOfBooks5.get(4));
+
     }
 
     private List<Book> generateListOfNBooks(int booksQuantity) {

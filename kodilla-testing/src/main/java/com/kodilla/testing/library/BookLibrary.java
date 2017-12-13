@@ -11,7 +11,10 @@ public class BookLibrary {
     }
 
     public List<Book> listBooksWithCondition(String titleFragment) {
-        List<Book> bookList = new ArrayList<Book>();
+        if (titleFragment == null) {
+            throw new IllegalArgumentException("null argument");
+        }
+        List<Book> bookList = new ArrayList<>();
         if (titleFragment.length() < 3) return bookList;
         List<Book> resultList = libraryDatabase
                 .listBooksWithCondition(titleFragment);
@@ -21,6 +24,9 @@ public class BookLibrary {
     }
 
     public List<Book> listBooksInHandsOf(LibraryUser libraryUser) {
-        throw new UnsupportedOperationException("method not implemented yet");
+        if (libraryUser == null) {
+            throw new IllegalArgumentException("null argument");
+        }
+        return libraryDatabase.listBooksInHandsOf(libraryUser);
     }
 }
