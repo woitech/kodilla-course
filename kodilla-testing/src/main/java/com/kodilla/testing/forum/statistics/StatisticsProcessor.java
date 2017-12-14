@@ -1,5 +1,7 @@
 package com.kodilla.testing.forum.statistics;
 
+import java.util.List;
+
 public class StatisticsProcessor {
     // Ilość użytkowników
     private int usersQuantity;
@@ -46,8 +48,11 @@ public class StatisticsProcessor {
         if (statistics == null) {
             throw new IllegalArgumentException("null Statistics");
         }
-
-        usersQuantity = statistics.usersNames().size();
+        List<String> userNames = statistics.usersNames();
+        if (userNames == null) {
+            throw new IllegalArgumentException("null users list");
+        }
+        usersQuantity = userNames.size();
         if ((postsQuantity = statistics.postsCount()) < 0) {
             throw new IllegalArgumentException("negative posts count");
         }
