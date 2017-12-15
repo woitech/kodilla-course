@@ -1,10 +1,14 @@
 package com.kodilla.stream;
 
+import com.kodilla.stream.iterate.NumbersGenerator;
 import com.kodilla.stream.lambda.*;
 import com.kodilla.stream.reference.FunctionalCalculator;
 
 public class StreamMain {
     public static void main(String[] args) {
+        // Submodule 7.1
+        System.out.println("Submodule 7.1");
+        System.out.println("Wstęp do programowania funkcyjnego, ...");
         Processor processor = new Processor();
 
         // 1 sposob
@@ -22,17 +26,20 @@ public class StreamMain {
         // 3 sposob
         processor.execute(() -> System.out.println("This is an example text 3."));
 
-        ////////////////////////////////////////////////////////////////
-
         ExpressionExecutor expressionExecutor = new ExpressionExecutor();
         expressionExecutor.executeExpression(10, 5, (a, b) -> a + b);
         expressionExecutor.executeExpression(10, 5, (a, b) -> a - b);
         expressionExecutor.executeExpression(10, 5, (a, b) -> a * b);
         expressionExecutor.executeExpression(10, 5, (a, b) -> a / b);
-
         expressionExecutor.executeExpression(3, 4, FunctionalCalculator::addAToB);
         expressionExecutor.executeExpression(3, 4, FunctionalCalculator::subBFromA);
         expressionExecutor.executeExpression(3, 4, FunctionalCalculator::multiplyAByB);
         expressionExecutor.executeExpression(3, 4, FunctionalCalculator::divideAByB);
+
+        // Submodule 7.2 ////////////////////////////////////////////////////
+        System.out.println("\nSubmodule 7.2\nCzym jest stream?");
+
+        System.out.println("Using Stream to generate even numbers from 1 to 20");
+        NumbersGenerator.generateEven(20);
     }
 }
