@@ -1,25 +1,32 @@
 package com.kodilla.stream;
 
-
-import com.kodilla.stream.book.Book;
-import com.kodilla.stream.book.BookDirectory;
 import com.kodilla.stream.beautifier.PoemBeautifier;
 import com.kodilla.stream.beautifier.StringEncloser;
 import com.kodilla.stream.iterate.NumbersGenerator;
 import com.kodilla.stream.lambda.*;
 import com.kodilla.stream.reference.FunctionalCalculator;
-
+import com.kodilla.stream.forumuser.Forum;
+import com.kodilla.stream.forumuser.ForumUser;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 
 public class StreamMain {
     public static void main(String[] args) {
-        BookDirectory theBookDirectory = new BookDirectory();
-        String theResultStringOfBooks = theBookDirectory.getList().stream()
-                .filter(book -> book.getYearOfPublication() > 2005)
-                .map(Book::toString)
-                .collect(Collectors.joining(",\n","<<",">>"));
+        Forum forum = new Forum();
+        Map<Integer,ForumUser> usersById = forum.getUserList().stream()
+                .filter(user -> user.getGender() == 'M')
+                .filter(user -> Period.between(user.getBirthDate(),
+                                    LocalDate.now()).getYears() > 19)
+                .filter(user -> user.getPostCount() > 0)
+                .collect(Collectors.toMap(user -> user.getId(), user -> user));
 
-        System.out.println(theResultStringOfBooks);
+        usersById.entrySet().stream()
+                .forEach(System.out::println);
+
+
 
         // Zadanie: Upiększacz tekstów
         PoemBeautifier pb = new PoemBeautifier();
