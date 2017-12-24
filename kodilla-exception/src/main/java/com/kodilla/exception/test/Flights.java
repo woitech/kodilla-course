@@ -21,7 +21,7 @@ public class Flights {
                 System.out.printf("%s: %s\n", flight,
                     schedule.findFilght(flight) ? "SCHEDULED" : "CANCELED");
             } catch (RouteNotFoundException e) {
-                System.out.printf("[Error: %s does not exist]\n", flight);
+                System.out.printf("[Error: %s]\n", e.getMessage());
             }
         }
     }

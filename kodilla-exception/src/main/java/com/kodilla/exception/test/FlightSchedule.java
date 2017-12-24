@@ -3,12 +3,9 @@ package com.kodilla.exception.test;
 import java.util.*;
 
 public class FlightSchedule {
-    public boolean findFilght(Flight flight) throws RouteNotFoundException {
-        if (flight == null) {
-            throw new IllegalArgumentException();
-        }
+    private static Map<String, Boolean> arrivalAbilities = new HashMap<>();
 
-        Map<String, Boolean> arrivalAbilities = new HashMap<>();
+    {
         arrivalAbilities.put("Singapore Changi", false);
         arrivalAbilities.put("Tokyo Intl Haneda", true);
         arrivalAbilities.put("Munich Airport", true);
@@ -44,10 +41,16 @@ public class FlightSchedule {
         arrivalAbilities.put("Hanoi Noi Bai Airport", false);
         arrivalAbilities.put("Budapest Airport", true);
         arrivalAbilities.put("Brussels Airport", true);
+    }
+
+    public boolean findFilght(Flight flight) throws RouteNotFoundException {
+        if (flight == null) {
+            throw new IllegalArgumentException();
+        }
 
         String arrival = flight.getArrivalAirport();
         if (!arrivalAbilities.containsKey(arrival)) {
-            throw new RouteNotFoundException();
+            throw new RouteNotFoundException(flight + " does not exist at schedule list");
         }
         return arrivalAbilities.get(arrival);
     }
