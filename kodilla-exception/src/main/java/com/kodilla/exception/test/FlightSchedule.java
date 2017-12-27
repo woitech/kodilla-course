@@ -50,7 +50,7 @@ public class FlightSchedule {
 
         String arrival = flight.getArrivalAirport();
         if (!arrivalAbilities.containsKey(arrival)) {
-            throw new RouteNotFoundException(flight + " does not exist at schedule list");
+            throw new RouteNotFoundException(flight);
         }
         return arrivalAbilities.get(arrival);
     }
