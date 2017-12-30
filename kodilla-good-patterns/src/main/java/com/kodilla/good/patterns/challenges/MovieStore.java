@@ -27,9 +27,8 @@ class MovieStore {
     }
 
     public MovieStore() {
+        movies = prepareMovies();
     }
 
-    public Map<String, List<String>> getMovies() {
-        return movies == null ? movies = prepareMovies() : movies;
-    }
+    public Map<String, List<String>> getMovies() { return movies; }
 }
