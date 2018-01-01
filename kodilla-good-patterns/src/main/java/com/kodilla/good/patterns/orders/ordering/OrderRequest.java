@@ -2,7 +2,7 @@ package com.kodilla.good.patterns.orders.ordering;
 
 import com.kodilla.good.patterns.orders.data.*;
 
-public final class OrderRequest implements OrderData {
+public final class OrderRequest {
     private final User user;
     private final Product product;
     private final int quantity;
@@ -20,22 +20,18 @@ public final class OrderRequest implements OrderData {
         this.amount = product.getPrice() * quantity;
     }
 
-    @Override
     public User getUser() {
         return user;
     }
 
-    @Override
     public Product getProduct() {
         return product;
     }
 
-    @Override
     public int getQuantity() {
         return quantity;
     }
 
-    @Override
     public double getAmount() {
         return amount;
     }

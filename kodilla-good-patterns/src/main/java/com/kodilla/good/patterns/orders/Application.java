@@ -6,10 +6,10 @@ import com.kodilla.good.patterns.orders.ordering.services.*;
 public class Application {
     public static void main(String[] args) {
         OrderRequestRetriever orr = new OrderRequestRetriever();
-        OrderData request = orr.retrieve();
+        OrderRequest request = orr.retrieve();
 
         OrderProcessor processor = new OrderProcessor(new SMSService(),
-                new ProductOrderService(), new InMemoryOrderRepository());
+                new SimpleOrderService(), new InMemoryOrderRepository());
         OrderProcessResult result = processor.process(request);
         if(result == null) {
             printError("Order process failed for request: " + request);

@@ -19,7 +19,7 @@ public class OrderProcessor {
         this.orderRepo = orderRepo;
     }
 
-    public OrderProcessResult process(final OrderData request) {
+    public OrderProcessResult process(final OrderRequest request) {
         if (request == null) {
             throw new IllegalArgumentException();
         }

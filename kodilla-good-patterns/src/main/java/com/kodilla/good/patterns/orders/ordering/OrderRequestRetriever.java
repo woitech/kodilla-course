@@ -3,7 +3,7 @@ package com.kodilla.good.patterns.orders.ordering;
 import com.kodilla.good.patterns.orders.data.*;
 
 public class OrderRequestRetriever {
-    private OrderData request;
+    private OrderRequest request;
 
     public OrderRequestRetriever() {
         User user = new User(123, "janek", "Jan", "Kowalski",
@@ -14,5 +14,5 @@ public class OrderRequestRetriever {
         request = new OrderRequest(user, product, 3);
     }
 
-    public OrderData retrieve() { return request; }
+    public OrderRequest retrieve() { return request; }
 }

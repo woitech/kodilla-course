@@ -3,18 +3,18 @@ package com.kodilla.good.patterns.orders.ordering;
 import com.kodilla.good.patterns.orders.data.*;
 import java.time.LocalDate;
 
-public final class Order implements OrderData {
-    private final OrderData data;
+public final class Order {
+    private final OrderRequest request;
     private final int id;
     private final LocalDate date;
 
-    public Order(final OrderData data, final int id,
+    public Order(final OrderRequest request, final int id,
                  final LocalDate date) {
-        if (data == null || id <= 0 || date == null) {
+        if (request == null || id <= 0 || date == null) {
             throw new IllegalArgumentException();
         }
 
-        this.data = data;
+        this.request = request;
         this.id = id;
         this.date = date;
     }
@@ -27,24 +27,20 @@ public final class Order implements OrderData {
         return date;
     }
 
-    @Override
     public User getUser() {
-        return data.getUser();
+        return request.getUser();
     }
 
-    @Override
     public Product getProduct() {
-        return data.getProduct();
+        return request.getProduct();
     }
 
-    @Override
     public int getQuantity() {
-        return data.getQuantity();
+        return request.getQuantity();
     }
 
-    @Override
     public double getAmount() {
-        return data.getAmount();
+        return request.getAmount();
     }
 
     @Override
@@ -53,13 +49,13 @@ public final class Order implements OrderData {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         if (id != order.id) return false;
-        if (!data.equals(order.data)) return false;
+        if (!request.equals(order.request)) return false;
         return date.equals(order.date);
     }
 
     @Override
     public int hashCode() {
-        int result = data.hashCode();
+        int result = request.hashCode();
         result = 31 * result + id;
         result = 31 * result + date.hashCode();
         return result;
@@ -70,7 +66,10 @@ public final class Order implements OrderData {
         return "Order{" +
                "id=" + id +
                ", date=" + date +
-               ", data=" + data +
+                ", user=" + request.getUser() +
+                ", product=" + request.getProduct() +
+                ", quantity=" + request.getQuantity() +
+                ", amount=" + request.getAmount() +
                '}';
     }
 }
