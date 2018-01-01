@@ -2,25 +2,20 @@ package com.kodilla.good.patterns.orders.data;
 
 public class User {
     private final int id;
-    private final String name;
+    private final String nickname;
     private final String firstName;
     private final String lastName;
     private final String address;
     private final String email;
     private final String phone;
 
-    public User(final int id, final String name, final String firstName,
+    public User(final int id, final String nickname, final String firstName,
                 final String lastName, final String address,
                 final String email, final String phone) {
-        if (id <= 0 || name == null || name.isEmpty() || firstName == null
-            || firstName.isEmpty() || lastName == null || lastName.isEmpty()
-            || address == null || address.isEmpty() || email == null
-            || email.isEmpty() || phone == null || phone.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+        validate(id, nickname, firstName, lastName, address, email, phone);
 
         this.id = id;
-        this.name = name;
+        this.nickname = nickname;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -28,12 +23,38 @@ public class User {
         this.phone = phone;
     }
 
+    private void validate(int id, String nickname, String firstName,
+                          String lastName, String address, String email,
+                          String phone) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("id less or equals zero");
+        }
+        if (nickname == null || nickname.isEmpty()) {
+            throw new IllegalArgumentException("valueless nickname");
+        }
+        if (firstName == null || firstName.isEmpty()) {
+            throw new IllegalArgumentException("valueless firstName");
+        }
+        if (lastName == null || lastName.isEmpty()) {
+            throw new IllegalArgumentException("valueless lastName");
+        }
+        if (address == null || address.isEmpty()) {
+            throw new IllegalArgumentException("valueless address");
+        }
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("valueless email");
+        }
+        if (phone == null || phone.isEmpty()) {
+            throw new IllegalArgumentException("valueless phone");
+        }
+    }
+
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getFirstName() {
@@ -62,7 +83,7 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         if (id != user.id) return false;
-        if (!name.equals(user.name)) return false;
+        if (!nickname.equals(user.nickname)) return false;
         if (!firstName.equals(user.firstName)) return false;
         if (!lastName.equals(user.lastName)) return false;
         if (!address.equals(user.address)) return false;
@@ -73,7 +94,7 @@ public class User {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + name.hashCode();
+        result = 31 * result + nickname.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
         result = 31 * result + address.hashCode();
@@ -86,7 +107,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +

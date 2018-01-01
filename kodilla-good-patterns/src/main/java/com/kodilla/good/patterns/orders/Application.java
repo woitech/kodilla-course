@@ -5,15 +5,36 @@ import com.kodilla.good.patterns.orders.ordering.services.*;
 
 public class Application {
     public static void main(String[] args) {
-        ProductOrderRetriever por = new ProductOrderRetriever();
-        ProductOrder order = por.retrieve();
+        OrderRequestRetriever orr = new OrderRequestRetriever();
+        OrderData request = orr.retrieve();
 
         OrderProcessor processor = new OrderProcessor(new SMSService(),
-                new ProductOrderService(), new ProductOrderRepository());
-        log(processor.process(order));
+                new ProductOrderService(), new InMemoryOrderRepository());
+        OrderProcessResult result = processor.process(request);
+        if(result == null) {
+            printError("Order process failed for request: " + request);
+            return;
+        }
+        printInfo("Created order: " + result.getOrder());
+        if (!result.isUserInformed()) {
+            printWarning("Information service failed. "
+                          + "User should be informed in another way!");
+        }
+        if (!result.isOrderStored()) {
+            printWarning("Order storage in repository failed. "
+                         + "Services based on repository may work incorrectly!");
+        }
     }
 
-    private static void log(Object o) {
-        System.out.println(o.toString());
+    private static void printError(String message) {
+        System.out.println("ERROR: " + message);
+    }
+
+    private static void printInfo(String message) {
+        System.out.println("INFO: " + message);
+    }
+
+    private static void printWarning(String message) {
+        System.out.println("WARNING: " + message);
     }
 }

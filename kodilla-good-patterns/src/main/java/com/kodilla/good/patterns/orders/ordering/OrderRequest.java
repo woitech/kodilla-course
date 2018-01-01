@@ -2,13 +2,13 @@ package com.kodilla.good.patterns.orders.ordering;
 
 import com.kodilla.good.patterns.orders.data.*;
 
-public class ProductOrder {
+public final class OrderRequest implements OrderData {
     private final User user;
     private final Product product;
     private final int quantity;
     private final double amount;
 
-    public ProductOrder(final User user, final Product product,
+    public OrderRequest(final User user, final Product product,
                         final int quantity) {
         if (user == null || product == null || quantity <= 0) {
             throw new IllegalArgumentException();
@@ -20,18 +20,22 @@ public class ProductOrder {
         this.amount = product.getPrice() * quantity;
     }
 
+    @Override
     public User getUser() {
         return user;
     }
 
+    @Override
     public Product getProduct() {
         return product;
     }
 
+    @Override
     public int getQuantity() {
         return quantity;
     }
 
+    @Override
     public double getAmount() {
         return amount;
     }
@@ -40,7 +44,7 @@ public class ProductOrder {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductOrder that = (ProductOrder) o;
+        OrderRequest that = (OrderRequest) o;
         if (quantity != that.quantity) return false;
         if (!user.equals(that.user)) return false;
         return product.equals(that.product);
@@ -56,7 +60,7 @@ public class ProductOrder {
 
     @Override
     public String toString() {
-        return "ProductOrder{" +
+        return "OrderRequest{" +
                 "user=" + user +
                 ", product=" + product +
                 ", quantity=" + quantity +

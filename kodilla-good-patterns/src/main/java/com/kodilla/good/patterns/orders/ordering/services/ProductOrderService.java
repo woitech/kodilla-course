@@ -1,7 +1,6 @@
 package com.kodilla.good.patterns.orders.ordering.services;
 
 import com.kodilla.good.patterns.orders.ordering.*;
-import com.kodilla.good.patterns.orders.data.*;
 
 import java.time.LocalDate;
 
@@ -9,22 +8,16 @@ public class ProductOrderService implements OrderService {
     private static int lastId = 0;
 
     @Override
-    public PlacedProductOrder order(ProductOrder order) {
-        if (order == null) {
+    public Order order(OrderData request) {
+        if (request == null) {
             throw new IllegalArgumentException();
         }
-        return placeOrder(order);
+        return placeOrder(request);
     }
 
-    private PlacedProductOrder placeOrder(ProductOrder order) {
-        User user = order.getUser();
-        Product product = order.getProduct();
-        int quantity = order.getQuantity();
-
-        // do something with user, product, quantity ...
+    private Order placeOrder(OrderData request) {
+        // do something with request ...
         // if (error) { return null; }
-
-        return new PlacedProductOrder(user, product, quantity, ++lastId,
-                                      LocalDate.now());
+        return new Order(request, ++lastId, LocalDate.now());
     }
 }

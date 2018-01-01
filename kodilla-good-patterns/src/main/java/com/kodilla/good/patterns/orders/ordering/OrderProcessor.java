@@ -19,17 +19,14 @@ public class OrderProcessor {
         this.orderRepo = orderRepo;
     }
 
-    public OrderProcessResultDto process(final ProductOrder order) {
-        if (order == null) {
+    public OrderProcessResult process(final OrderData request) {
+        if (request == null) {
             throw new IllegalArgumentException();
         }
 
-        PlacedProductOrder ppo = orderService.order(order);
-        if (ppo == null) {
-            return new OrderProcessResultDto(order, null, false, false);
-        }
-        return new OrderProcessResultDto(order, ppo, infoService.inform(ppo),
-                                         orderRepo.create(ppo));
-
+        Order order = orderService.order(request);
+        if (order == null) { return null; }
+        return new OrderProcessResult(order, infoService.inform(order),
+                                      orderRepo.create(order));
     }
 }
