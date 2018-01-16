@@ -1,19 +1,18 @@
 package com.kodilla.good.patterns.food2door;
 
-import com.kodilla.good.patterns.food2door.demands.Demand;
-import com.kodilla.good.patterns.food2door.process.*;
+import com.kodilla.good.patterns.food2door.supplies.*;
+import com.kodilla.good.patterns.food2door.supplies.repo.*;
+import java.util.*;
 
 public class Application {
     public static void main(String[] args) {
-        AppConfig config = new AppConfig("config.xml");
+        // Adding a new service
+        // Developer implements interface SupplyService in subpackage supplies.repo using a client of remote service,
+        // then edits supplies.repo.ServicesRepository.java. Client library can be provided by producer or it can be
+        // a common library like web client, database client, etc.
+        // todo: using a config file and the Java reflection API would eliminate re-editions of ServicesRepository
 
-        Demand demand = config.getDemandRetriever().retrieve();
-        if(demand == null) {
-            System.out.println("No demands to support");
-            return;
-        }
-        OrderProcessor processor = new OrderProcessor(config);
-        OrderProcessorResult result = processor.process(demand);
-        config.getOrderProcessorResultHandler().handle(result);
+        List<SupplyService> services = ServicesRepository.getServices();
+        new MainSystemSimpleExample(services).useServices();
     }
 }
