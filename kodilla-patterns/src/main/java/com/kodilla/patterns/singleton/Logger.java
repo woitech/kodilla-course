@@ -1,17 +1,16 @@
 package com.kodilla.patterns.singleton;
 
+// todo: another version with thread-safe lazy initialization
 public class Logger {
-    private static Logger loggerInstance = null;
+    private static final Logger INSTANCE = new Logger();
+
     private String lastLog = "";
 
     private Logger() {
     }
 
     public static Logger getInstance() {
-        if (loggerInstance == null) {
-            loggerInstance = new Logger();
-        }
-        return loggerInstance;
+        return INSTANCE;
     }
 
     public void log(String log) {
