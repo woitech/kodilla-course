@@ -58,6 +58,20 @@ public final class Library extends Prototype<Library> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Library library = (Library) o;
+        if (!name.equals(library.name)) return false;
+        return books.equals(library.books);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
     public String toString() {
         return "Library: '" + name + '\'' + '\n' +
                 books.stream()
