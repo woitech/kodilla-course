@@ -25,7 +25,7 @@ public class TaskFactory {
             case LONG_WAY_DRIVING:
                 return new DrivingTask("Very long way driving", "New York", "aeroplane");
             default:
-                return null;
+                throw new IllegalArgumentException("Unsupported object name");
         }
     }
 }
