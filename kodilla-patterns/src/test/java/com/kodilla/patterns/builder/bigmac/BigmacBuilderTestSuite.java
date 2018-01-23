@@ -205,4 +205,65 @@ public class BigmacBuilderTestSuite {
             assertEquals("missing burgers number", e.getMessage());
         }
     }
+
+    @Test
+    public void testRollAfterBuild() {
+        // Given
+        Bigmac.BigmacBuilder builder = new Bigmac.BigmacBuilder(limits);
+        builder.roll("sesame").sauce("thousand islands").burgers(1).build();
+        try {
+            // When
+            builder.roll("basic");
+            // Then
+            fail("missing IllegalStateException");
+        } catch(IllegalStateException e) {
+            assertEquals("bigmac has already got built", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testSauceAfterBuild() {
+        // Given
+        Bigmac.BigmacBuilder builder = new Bigmac.BigmacBuilder(limits);
+        builder.roll("sesame").sauce("thousand islands").burgers(1).build();
+        try {
+            // When
+            builder.sauce("barbeque");
+            // Then
+            fail("missing IllegalStateException");
+        } catch(IllegalStateException e) {
+            assertEquals("bigmac has already got built", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testIngredientAfterBuild() {
+        // Given
+        Bigmac.BigmacBuilder builder = new Bigmac.BigmacBuilder(limits);
+        builder.roll("sesame").sauce("thousand islands").burgers(1).build();
+        try {
+            // When
+            builder.ingredient("onion");
+            // Then
+            fail("missing IllegalStateException");
+        } catch(IllegalStateException e) {
+            assertEquals("bigmac has already got built", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testBuildAfterBuild() {
+        // Given
+        Bigmac.BigmacBuilder builder = new Bigmac.BigmacBuilder(limits);
+        builder.roll("sesame").sauce("thousand islands").burgers(1).build();
+        try {
+            // When
+            builder.build();
+            // Then
+            fail("missing IllegalStateException");
+        } catch(IllegalStateException e) {
+            assertEquals("bigmac has already got built", e.getMessage());
+        }
+    }
+
 }

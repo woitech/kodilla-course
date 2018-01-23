@@ -5,70 +5,82 @@ import java.util.*;
 import static com.kodilla.patterns.builder.bigmac.Validator.*;
 
 public final class Bigmac {
-    private final String roll;
-    private final String sauce;
-    private final int burgers;
-    private final Set<String> ingredients;
+    private String roll;
+    private String sauce;
+    private int burgers = -1;
+    private Set<String> ingredients = new HashSet<>();
 
-    private Bigmac(String roll, String sauce, int burgers, Set<String> ingredients) {
-        this.roll = roll;
-        this.sauce = sauce;
-        this.burgers = burgers;
-        this.ingredients = new HashSet<>(ingredients);
+    private Bigmac() {
     }
 
     public static class BigmacBuilder {
         private final Limits limits;
+        private final Bigmac target;
 
-        private String roll;
-        private String sauce;
-        private int burgers = -1;
-        private Set<String> ingredients = new HashSet<>();
+        private boolean built;
 
         public BigmacBuilder(Limits limits) {
             validateNotNull(limits, "null Limits");
             this.limits = limits;
+            target = new Bigmac();
+        }
+
+        private void checkBuilt() {
+            if(built) {
+                throw new IllegalStateException("bigmac has already got built");
+            }
+        }
+
+        private void setBuilt() {
+            built = true;
         }
 
         public BigmacBuilder roll(String roll) {
-            validateStateNull(this.roll, "roll is already set");
+            checkBuilt();
+            validateStateNull(target.roll, "roll is already set");
             limits.validateRoll(roll);
-            this.roll = roll;
+            target.roll = roll;
 
             return this;
         }
 
         public BigmacBuilder sauce(String sauce) {
-            validateStateNull(this.sauce, "sauce is already set");
+            checkBuilt();
+            validateStateNull(target.sauce, "sauce is already set");
             limits.validateSauce(sauce);
-            this.sauce = sauce;
+            target.sauce = sauce;
 
             return this;
         }
 
         public BigmacBuilder burgers(int burgers) {
-            validateStateTrue(this.burgers == -1, "burgers number is already set");
+            checkBuilt();
+            validateStateTrue(target.burgers == -1, "burgers number is already set");
             limits.validateBurgers(burgers);
 
-            this.burgers = burgers;
+            target.burgers = burgers;
 
             return this;
         }
 
         public BigmacBuilder ingredient(String ingredient) {
+            checkBuilt();
             limits.validateIngredient(ingredient);
-            this.ingredients.add(ingredient);
+            target.ingredients.add(ingredient);
 
             return this;
         }
 
         public Bigmac build() {
-            validateStateNotNull(roll, "missing roll");
-            validateStateNotNull(sauce, "missing sauce");
+            checkBuilt();
+            validateStateNotNull(target.roll, "missing roll");
+            validateStateNotNull(target.sauce, "missing sauce");
             // ingredients set can be empty
-            validateStateTrue(burgers > -1, "missing burgers number");
+            validateStateTrue(target.burgers > -1, "missing burgers number");
 
-            return new Bigmac(roll, sauce, burgers, ingredients);
+            setBuilt();
+
+            return target;
         }
     }
 
