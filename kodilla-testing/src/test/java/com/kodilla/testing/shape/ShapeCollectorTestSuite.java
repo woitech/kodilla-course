@@ -153,7 +153,7 @@ public class ShapeCollectorTestSuite {
         Shape shapeTwo = mock(Shape.class);
         Shape shapeThree = mock(Shape.class);
         String expectedString
-                = String.format("%s\n%s\n%s\n", shapeOne, shapeTwo, shapeThree);
+                = String.format("%s\n%s\n%s\n", asciiShapeOneToString, asciiNameShapeTwoToString, asciiNameShapeThreeToString);
         when(shapeOne.toString()).thenReturn(asciiShapeOneToString);
         when(shapeTwo.toString()).thenReturn(asciiNameShapeTwoToString);
         when(shapeThree.toString()).thenReturn(asciiNameShapeThreeToString);
