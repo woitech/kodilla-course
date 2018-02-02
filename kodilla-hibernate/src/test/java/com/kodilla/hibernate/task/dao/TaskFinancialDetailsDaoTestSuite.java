@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TaskFinancialDetailsDaoTestSuite {

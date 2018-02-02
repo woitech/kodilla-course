@@ -10,7 +10,6 @@ public class TaskFinancialDetails {
     private int id;
     private BigDecimal price;
     private boolean paid;
-    private Task task;
 
     public TaskFinancialDetails() {
     }
@@ -48,15 +47,5 @@ public class TaskFinancialDetails {
 
     private void setPaid(boolean paid) {
         this.paid = paid;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "TASKLIST_ID")
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
     }
 }
