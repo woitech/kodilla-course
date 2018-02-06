@@ -1,19 +1,23 @@
 package com.kodilla.hibernate.manytomany.dao;
 
-import com.kodilla.hibernate.manytomany.Company;
-import com.kodilla.hibernate.manytomany.Employee;
-import org.junit.Assert;
+import com.kodilla.hibernate.manytomany.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CompanyDaoTestSuite {
     @Autowired
-    CompanyDao companyDao;
+    private CompanyDao companyDao;
+
+    @Autowired
+    private EmployeeDao employeeDao;
 
     @Test
     public void testSaveManyToMany(){
@@ -45,9 +49,9 @@ public class CompanyDaoTestSuite {
         int greyMatterId = greyMatter.getId();
 
         //Then
-        Assert.assertNotEquals(0, softwareMachineId);
-        Assert.assertNotEquals(0, dataMaestersId);
-        Assert.assertNotEquals(0, greyMatterId);
+        assertNotEquals(0, softwareMachineId);
+        assertNotEquals(0, dataMaestersId);
+        assertNotEquals(0, greyMatterId);
 
         //CleanUp
         try {
@@ -57,5 +61,127 @@ public class CompanyDaoTestSuite {
         } catch (Exception e) {
             //do nothing
         }
+    }
+
+    @Test
+    public void testRetrieveCompaniesWithNamePrefix() {
+        // Given
+        final String prefix3Chars = "Car";
+        final String prefixCompanyBName = "Carmen";
+        final String prefixCompanyBNamePlus = "Carmenxxx";
+        final String prefixEmpty = "";
+
+        // name suffixes A,B,C mirror sorting by name
+        Company searchedCompanyA = new Company("Carafe @ Bottle");
+        Company searchedCompanyB = new Company("Carmen");
+        Company searchedCompanyC = new Company("Cars Warehouse");
+
+        Company ignoredCompany1 = new Company("Daimler AG");
+        Company ignoredCompany2 = new Company("BMW Group");
+        Company ignoredCompany3 = new Company("General Motors");
+
+        Employee employee1 = new Employee("Jan", "Kowalski");
+        Employee employee2 = new Employee("Andrzej", "Nowak");
+        Employee employee3 = new Employee("Kamil", "Kowalski");
+        Employee employee4 = new Employee("Cyprian", "Zetowski");
+        Employee employee5 = new Employee("Jacek", "Kowalski");
+
+        associate(searchedCompanyA, employee1);
+        associate(searchedCompanyA, employee2);
+        associate(searchedCompanyB, employee3);
+        associate(searchedCompanyB, employee4);
+        associate(searchedCompanyC, employee5);
+        associate(ignoredCompany1, employee5);
+        associate(ignoredCompany2, employee5);
+        associate(ignoredCompany3, employee5);
+
+        List<Integer> ids = new ArrayList<>();
+        ids.add(companyDao.save(searchedCompanyA).getId());
+        ids.add(companyDao.save(ignoredCompany1).getId());
+        ids.add(companyDao.save(searchedCompanyB).getId());
+        ids.add(companyDao.save(ignoredCompany2).getId());
+        ids.add(companyDao.save(searchedCompanyC).getId());
+        ids.add(companyDao.save(ignoredCompany3).getId());
+
+        // When & then
+        try {
+            assertEquals(Arrays.asList(searchedCompanyA, searchedCompanyB, searchedCompanyC),
+                         companyDao.retrieveCompaniesWithNamePrefix(prefix3Chars));
+            assertEquals(Arrays.asList(searchedCompanyB),
+                         companyDao.retrieveCompaniesWithNamePrefix(prefixCompanyBName));
+            assertEquals(Collections.emptyList(),
+                         companyDao.retrieveCompaniesWithNamePrefix(prefixCompanyBNamePlus));
+            assertEquals(Collections.emptyList(),
+                         companyDao.retrieveCompaniesWithNamePrefix(prefixEmpty));
+
+        } finally {
+            //CleanUp
+            for(int id : ids) {
+                try {
+                    companyDao.delete(id);
+                } catch (Exception exc) {
+                    System.err.println("CleanUp: " + exc);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testRetrieveEmployeesWithLastName() {
+        // Given
+        final String searchedName = "Kowalski";
+        final String searchedNameFragment = "Kowalsk";
+        final String searchedNamePlus = "Kowalskix";
+        final String searchedNameEmpty = "";
+
+        // name suffixes A,B,C mirror sorting by (lastname, firstname)
+        Employee searchedEmployeeA = new Employee("Jacek", "Kowalski");
+        Employee searchedEmployeeB = new Employee("Jan", "Kowalski");
+        Employee searchedEmployeeC = new Employee("Kamil", "Kowalski");
+
+        Employee ignoredEmployee1 = new Employee("Andrzej", "Nowak");
+        Employee ignoredEmployee2 = new Employee("Cyprian", "Zetowski");
+
+        Company company1 = new Company("Daimler AG");
+        Company company2 = new Company("BMW Group");
+
+        associate(company1, searchedEmployeeA);
+        associate(company1, ignoredEmployee1);
+        associate(company1, searchedEmployeeB);
+        associate(company2, ignoredEmployee2);
+        associate(company2, searchedEmployeeC);
+
+        List<Integer> ids = new ArrayList<>();
+        ids.add(companyDao.save(company1).getId());
+        ids.add(companyDao.save(company2).getId());
+
+        // When & Then
+
+        try {
+            assertEquals(Arrays.asList(searchedEmployeeA, searchedEmployeeB, searchedEmployeeC),
+                         employeeDao.retrieveEmployeesWithLastName(searchedName));
+            assertEquals(Collections.emptyList(), employeeDao.retrieveEmployeesWithLastName(searchedNameFragment));
+            assertEquals(Collections.emptyList(), employeeDao.retrieveEmployeesWithLastName(searchedNamePlus));
+            assertEquals(Collections.emptyList(), employeeDao.retrieveEmployeesWithLastName(searchedNameEmpty));
+        } finally {
+            //CleanUp
+            for(int id : ids) {
+                try {
+                    companyDao.delete(id);
+                } catch (Exception exc) {
+                    System.err.println("CleanUp: " + exc);
+                }
+            }
+        }
+
+    }
+
+    // chyba pachnie trochę lenistwem i zazdrością?
+    // ale nie jestem pewien
+    private void associate(Company c, Employee e) {
+        assertNotNull(c);
+        assertNotNull(e);
+        e.getCompanies().add(c);
+        c.getEmployees().add(e);
     }
 }
