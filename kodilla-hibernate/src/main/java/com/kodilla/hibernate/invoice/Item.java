@@ -14,7 +14,6 @@ public class Item {
     private BigDecimal price;
     private int quantity;
     private Invoice invoice;
-    // derived
     private BigDecimal value;
 
     public Item() {
@@ -40,7 +39,7 @@ public class Item {
     }
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "PRODUCT_ID")
     public Product getProduct() {
         return product;
