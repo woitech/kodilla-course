@@ -6,7 +6,7 @@ import java.util.*;
 
 @NamedNativeQuery(
         name = "Company.retrieveCompaniesWithNamePrefix",
-        query = "SELECT * FROM COMPANIES WHERE :PREFIX LIKE '_%' AND COMPANY_NAME LIKE CONCAT(:PREFIX, '%') ORDER BY COMPANY_NAME",
+        query = "SELECT * FROM COMPANIES WHERE COMPANY_NAME LIKE CONCAT(:PREFIX, '%') ORDER BY COMPANY_NAME",
         resultClass = Company.class
 )
 @Entity
