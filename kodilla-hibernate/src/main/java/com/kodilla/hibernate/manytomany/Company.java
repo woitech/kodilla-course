@@ -4,6 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
+@NamedNativeQuery(
+        name = "Company.retrieveCompaniesWithNamePrefix",
+        query = "SELECT * FROM COMPANIES WHERE COMPANY_NAME LIKE CONCAT(:PREFIX, '%') ORDER BY COMPANY_NAME",
+        resultClass = Company.class
+)
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
@@ -47,5 +52,21 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company company = (Company) o;
+        if (id != company.id) return false;
+        return name.equals(company.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + name.hashCode();
+        return result;
     }
 }
