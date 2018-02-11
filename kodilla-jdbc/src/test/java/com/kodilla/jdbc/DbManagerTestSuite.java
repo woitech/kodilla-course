@@ -43,7 +43,7 @@ public class DbManagerTestSuite {
     }
 
     // Essential data and some metadata obtained from query result
-    @Test
+    //@Test
     public void testSelectUsersAndPostsAsStatement() throws SQLException {
         //Given
         DbManager dbManager = DbManager.getInstance();
