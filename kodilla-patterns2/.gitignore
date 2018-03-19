@@ -1,9 +1,6 @@
 .gradle
-out/
-brudnopis.txt
-drafts
+/build/
 !gradle/wrapper/gradle-wrapper.jar
-TmpTestSuite.java
 
 ### STS ###
 .apt_generated
