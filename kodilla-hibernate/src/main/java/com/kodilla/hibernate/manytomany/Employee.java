@@ -4,10 +4,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
-@NamedQuery(
+@NamedQueries({
+    @NamedQuery(
         name = "Employee.retrieveEmployeesWithLastName",
         query = "FROM Employee WHERE lastname = :LASTNAME ORDER BY lastname, firstname"
-)
+    ),
+    @NamedQuery(
+        name = "Employee.retrieveEmployeesWithLastNameFragment",
+        query = "FROM Employee WHERE lastname LIKE CONCAT('%', :FRAGMENT, '%') ORDER BY lastname, firstname"
+    )
+})
 @Entity
 @Table(name = "EMPLOYEES")
 public class Employee {

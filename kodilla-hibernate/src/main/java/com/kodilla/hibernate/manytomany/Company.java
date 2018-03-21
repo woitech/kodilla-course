@@ -3,12 +3,18 @@ package com.kodilla.hibernate.manytomany;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
-
-@NamedNativeQuery(
+@NamedNativeQueries({
+    @NamedNativeQuery(
         name = "Company.retrieveCompaniesWithNamePrefix",
         query = "SELECT * FROM COMPANIES WHERE COMPANY_NAME LIKE CONCAT(:PREFIX, '%') ORDER BY COMPANY_NAME",
         resultClass = Company.class
-)
+    ),
+    @NamedNativeQuery(
+    name = "Company.retrieveCompaniesWithNameFragment",
+            query = "SELECT * FROM COMPANIES WHERE COMPANY_NAME LIKE CONCAT('%', :FRAGMENT, '%') ORDER BY COMPANY_NAME",
+            resultClass = Company.class
+    )
+})
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
