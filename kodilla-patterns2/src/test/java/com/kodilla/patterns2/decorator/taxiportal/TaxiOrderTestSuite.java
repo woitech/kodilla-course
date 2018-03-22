@@ -14,7 +14,7 @@ public class TaxiOrderTestSuite {
         // When
         BigDecimal calculatedCost = theOrder.getCost();
         // Then
-        assertEquals(new BigDecimal(5.0), calculatedCost);
+        assertEquals(0, calculatedCost.compareTo(new BigDecimal(5.0)));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class TaxiOrderTestSuite {
         // When
         BigDecimal calculatedCost = theOrder.getCost();
         // Then
-        assertEquals(new BigDecimal(40.0), calculatedCost);
+        assertEquals(0, calculatedCost.compareTo(new BigDecimal(40.0)));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class TaxiOrderTestSuite {
         // When
         BigDecimal calculatedCost = theOrder.getCost();
         // Then
-        assertEquals(new BigDecimal(25.0), calculatedCost);
+        assertEquals(0, calculatedCost.compareTo(new BigDecimal(25.0)));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class TaxiOrderTestSuite {
         // When
         BigDecimal calculatedCost = theOrder.getCost();
         // Then
-        assertEquals(new BigDecimal(37.0), calculatedCost);
+        assertEquals(0, calculatedCost.compareTo(new BigDecimal(37.0)));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class TaxiOrderTestSuite {
         // When
         BigDecimal calculatedCost = theOrder.getCost();
         // Then
-        assertEquals(new BigDecimal(29.0), calculatedCost);
+        assertEquals(0, calculatedCost.compareTo(new BigDecimal(29.0)));
     }
 
     @Test
@@ -124,7 +124,7 @@ public class TaxiOrderTestSuite {
         // When
         BigDecimal calculatedCost = theOrder.getCost();
         // Then
-        assertEquals(new BigDecimal(57.0), calculatedCost);
+        assertEquals(0, calculatedCost.compareTo(new BigDecimal(57.0)));
     }
 
     @Test
