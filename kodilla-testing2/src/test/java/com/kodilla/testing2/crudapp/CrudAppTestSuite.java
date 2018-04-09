@@ -141,6 +141,6 @@ public class CrudAppTestSuite {
         String taskName = createCrudApptestTask();
         sendTestTaskToTrello(taskName);
         assertTrue(checkTaskExistsInTrello(taskName));
-        deleteCrudAppTestTaskAndCheckIfNotDisplayed(taskName);
+        assertTrue(deleteCrudAppTestTaskAndCheckIfNotDisplayed(taskName));
     }
 }
