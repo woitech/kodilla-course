@@ -13,14 +13,13 @@ public class FacebookTestingApp {
     public static final String REGISTER_PARAM_BIRTH_MONTH = "birthday_month";
     public static final String REGISTER_PARAM_BIRTH_YEAR = "birthday_year";
 
-    public static final String XPATH_FORM_REGISTER_DATA = "//form[@action=" + "\"" + REGISTER_ACTION + "\"" +"]";
+    public static final String XPATH_FORM_REGISTER_DATA = String.format("//form[@action=\"%s\"]", REGISTER_ACTION);
     public static final String XPATH_SELECT_BIRTH_DAY
-            = XPATH_FORM_REGISTER_DATA + "//select[@name=" + "\"" + REGISTER_PARAM_BIRTH_DAY + "\"" + "]";
+            = String.format("%1$s//select[@name=\"%2$s\"]", XPATH_FORM_REGISTER_DATA, REGISTER_PARAM_BIRTH_DAY);
     public static final String XPATH_SELECT_BIRTH_MONTH
-            = XPATH_FORM_REGISTER_DATA + "//select[@name=" + "\"" + REGISTER_PARAM_BIRTH_MONTH + "\"" + "]";
+            = String.format("%1$s//select[@name=\"%2$s\"]", XPATH_FORM_REGISTER_DATA, REGISTER_PARAM_BIRTH_MONTH);
     public static final String XPATH_SELECT_BIRTH_YEAR
-            = XPATH_FORM_REGISTER_DATA + "//select[@name=" + "\"" + REGISTER_PARAM_BIRTH_YEAR + "\"" + "]";
-
+            = String.format("%1$s//select[@name=\"%2$s\"]", XPATH_FORM_REGISTER_DATA, REGISTER_PARAM_BIRTH_YEAR);
 
     public static void main(String[] args) {
         WebDriver driver = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
