@@ -21,14 +21,25 @@ public class CrudAppTestSuite {
 
     @Before
     public void initTest() {
-        driver = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
-        driver.get(BASE_URL);
+        initDriver();
         generator = new Random();
     }
 
     @After
     public void cleanUpAfterTest() {
-        driver.close();
+        cleanupDriver();
+    }
+
+    private void initDriver() {
+        cleanupDriver();
+        driver = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
+        driver.get(BASE_URL);
+    }
+
+    private void cleanupDriver() {
+        if (driver != null) {
+            driver.close();
+        }
     }
 
     private String createCrudApptestTask() throws InterruptedException {
@@ -104,10 +115,32 @@ public class CrudAppTestSuite {
         return result;
     }
 
+    private boolean deleteCrudAppTestTaskAndCheckIfNotDisplayed(String taskName) throws InterruptedException {
+        initDriver();
+
+        while (!driver.findElement(By.xpath("//select[1]")).isDisplayed());
+
+        boolean result = false;
+
+        driver.findElements(By.xpath("//form[@class=\"datatable__row\"]")).stream()
+                .filter(anyForm -> anyForm.findElement(By.xpath(".//p[@class=\"datatable__field-value\"]"))
+                        .getText().equals(taskName))
+                .forEach(theForm -> theForm.findElement(By.xpath(".//button[@data-task-delete-button=\"\"]")).click());
+
+        Thread.sleep(2000);
+
+        return driver.findElements(By.xpath("//form[@class=\"datatable__row\"]")).stream()
+                .filter(anyForm -> anyForm.findElement(By.xpath(".//p[@class=\"datatable__field-value\"]"))
+                                       .getText().equals(taskName))
+                .collect(Collectors.toList())
+                .size() == 0;
+    }
+
     @Test
     public void shouldCreateTrelloCard() throws InterruptedException {
         String taskName = createCrudApptestTask();
         sendTestTaskToTrello(taskName);
         assertTrue(checkTaskExistsInTrello(taskName));
+        deleteCrudAppTestTaskAndCheckIfNotDisplayed(taskName);
     }
 }
