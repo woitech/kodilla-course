@@ -7,12 +7,16 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertTrue;
+import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.*;
 
 public class CrudAppTestSuite {
     private static final String BASE_URL = "https://woitech.github.io";
@@ -21,14 +25,25 @@ public class CrudAppTestSuite {
 
     @Before
     public void initTest() {
-        driver = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
-        driver.get(BASE_URL);
+        initDriver();
         generator = new Random();
     }
 
     @After
     public void cleanUpAfterTest() {
-        driver.close();
+        cleanupDriver();
+    }
+
+    private void initDriver() {
+        cleanupDriver();
+        driver = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
+        driver.get(BASE_URL);
+    }
+
+    private void cleanupDriver() {
+        if (driver != null) {
+            driver.close();
+        }
     }
 
     private String createCrudApptestTask() throws InterruptedException {
@@ -96,7 +111,7 @@ public class CrudAppTestSuite {
 
         result = driverTrello.findElements(By.xpath("//span")).stream()
                 .filter(theSpan -> theSpan.getText().contains(taskName))
-                .collect(Collectors.toList())
+                .collect(toList())
                 .size() > 0;
 
         driverTrello.close();
@@ -104,10 +119,35 @@ public class CrudAppTestSuite {
         return result;
     }
 
+    private void deleteCrudAppTestTask(String taskName) {
+        initDriver();
+        WebDriverWait wait = new WebDriverWait(driver, 2, 100);
+
+        By locator = By.xpath("//form[@class=\"datatable__row\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+        List<WebElement> taskRows = driver.findElements(locator).stream()
+                .filter(anyForm -> anyForm.findElement(By.xpath(".//p[@class=\"datatable__field-value\"]"))
+                        .getText().equals(taskName)).collect(toList());
+
+        assertNotEquals(0, taskRows.size());
+
+        for(WebElement element : taskRows) {
+            wait.until(ExpectedConditions.visibilityOf(element));
+        }
+
+        for (WebElement taskRow : taskRows) {
+            WebElement button = taskRow.findElement(By.xpath(".//button[@data-task-delete-button=\"\"]"));
+            wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+            wait.until(ExpectedConditions.stalenessOf(taskRow));
+        }
+    }
+
     @Test
     public void shouldCreateTrelloCard() throws InterruptedException {
         String taskName = createCrudApptestTask();
         sendTestTaskToTrello(taskName);
         assertTrue(checkTaskExistsInTrello(taskName));
+        deleteCrudAppTestTask(taskName);
     }
 }
